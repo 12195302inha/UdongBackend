@@ -1,0 +1,14 @@
+### 간결한 정보 테스트
+
+GET http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/concise_info
+Accept: application/json
+
+### 복잡한 정보 테스트
+
+GET http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/detail_info
+Accept: application/json
+
+### 썸네일 사진 테스트
+
+GET http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/thumbnail
+Accept: image/png

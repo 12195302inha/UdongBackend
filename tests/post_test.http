@@ -1,0 +1,38 @@
+### 동아리 정보 업로드 테스트
+POST http://127.0.0.1:8000/circles
+Content-Type: application/json
+
+{
+  "name": "네터스",
+  "hashtag": ["즐거운", "활기찬"],
+  "current_number_of_people": 0,
+  "maximum_number_of_people": 100,
+  "deadline": "2022-02-02 00:00:00",
+  "dues": 20000
+}
+
+### 동아리 썸네일 업로드 테스트
+POST http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/upload_thumbnail
+Content-Type: multipart/form-data; boundary=thumbnail
+
+--thumbnail
+Content-Disposition: form-data; name="thumbnail"; filename="google_logo.png"
+
+// The 'input.txt' file will be uploaded
+< ./resource/logos/google_logo.png
+
+### 동아리 활동사진 업로드 테스트
+POST http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/upload_photos
+Content-Type: multipart/form-data; boundary=photo
+
+--photo
+Content-Disposition: form-data; name="photos[]"; filename="act1.jpg"
+
+// The 'input.txt' file will be uploaded
+< ./resource/pictures/act1.jpg
+
+--photo
+Content-Disposition: form-data; name="photos[]"; filename="act2.jpg"
+
+// The 'input.txt' file will be uploaded
+< ./resource/pictures/act2.jpg
