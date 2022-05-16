@@ -66,7 +66,7 @@ async def get_circle_id_list():
 
 @app.get("/circles/{circle_id}/concise_info")
 async def get_circle_concise_info(circle_id: str):
-    removed_keys = ["hashtag", "deadline", "dues", "thumbnail_id", "photo_id_list"]
+    removed_keys = ["_id", "hashtag", "deadline", "dues", "thumbnail_id", "photo_id_list"]
     circle_object_id = db_controller.get_object_id(circle_id)
     if found_circle := db_controller.find_one_document(collection_name, {"_id": circle_object_id}):
         found_circle["_id"] = str(found_circle["_id"])
@@ -79,7 +79,7 @@ async def get_circle_concise_info(circle_id: str):
 
 @app.get("/circles/{circle_id}/detail_info")
 async def get_circle_detail_info(circle_id: str):
-    removed_keys = ["thumbnail_id", "photo_id_list"]
+    removed_keys = ["_id", "thumbnail_id", "photo_id_list"]
     circle_object_id = db_controller.get_object_id(circle_id)
     if found_circle := db_controller.find_one_document(collection_name, {"_id": circle_object_id}):
         found_circle["_id"] = str(found_circle["_id"])
