@@ -55,6 +55,9 @@ class DBController():
     def get_file(self, thumbnail_id):
         return self.fs.get(thumbnail_id).read()
 
+    def delete_file(self, file_id):
+        return self.fs.delete(file_id)
+
 
 if __name__ == '__main__':
     db_controller = DBController("Udong")

@@ -120,3 +120,44 @@ async def get_club_photo(club_id: str, photo_id: str):
             output_data = db_controller.get_file(photo_object_id)
             return StreamingResponse(BytesIO(output_data), media_type="image/png")
     return {}
+
+
+@app.delete("/clubs/{club_id}")
+async def delete_club(club_id: str):
+    club_object_id = db_controller.get_object_id(club_id)
+    if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
+        if found_club["thumbnail_id"]:
+            await delete_club_thumbnail(club_id)
+        if photo_id_list := found_club["photo_id_list"]:
+            for photo_id in photo_id_list:
+                await delete_club_photo(club_id, photo_id)
+        if delete_club_result := db_controller.delete_document(collection_name, {"_id": club_object_id}):
+            return {"result": delete_club_result}
+    return {}
+
+
+@app.delete("/club/{club_id}/thumbnail")
+async def delete_club_thumbnail(club_id: str):
+    club_object_id = db_controller.get_object_id(club_id)
+    if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
+        if thumbnail_id := found_club["thumbnail_id"]:
+            thumbnail_object_id = db_controller.get_object_id(thumbnail_id)
+            db_controller.delete_file(thumbnail_object_id)
+            if update_thumbnail_id_result := db_controller.update_document(collection_name, {"_id": club_object_id},
+                                                                           {"thumbnail_id": str()}):
+                return {"result": update_thumbnail_id_result}
+    return {}
+
+
+@app.delete("/club/{club_id}/photos/{photo_id}")
+async def delete_club_photo(club_id: str, photo_id: str):
+    club_object_id = db_controller.get_object_id(club_id)
+    photo_object_id = db_controller.get_object_id(photo_id)
+    if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
+        if (photo_id_list := found_club["photo_id_list"]) and photo_object_id in found_club["photo_id_list"]:
+            db_controller.delete_file(photo_object_id)
+            photo_id_list.remove(photo_object_id)
+            if update_photo_id_list_result := db_controller.update_document(collection_name, {"_id": club_object_id},
+                                                                            {"photo_id_list": photo_id_list}):
+                return {"result": update_photo_id_list_result}
+    return {}
