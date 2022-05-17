@@ -26,7 +26,10 @@ class Club(BaseModel):
 
 @app.post("/clubs")
 async def post_club_info(club: Club):
-    if insert_result := db_controller.insert_document(collection_name, dict(club)):
+    dict_club = dict(club)
+    dict_club.update({"thumbnail_id": str()})
+    dict_club.update({"photo_id_list": list()})
+    if insert_result := db_controller.insert_document(collection_name, dict_club):
         return {"result": insert_result}
     return {}
 
