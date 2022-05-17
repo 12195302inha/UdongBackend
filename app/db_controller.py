@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from bson.objectid import ObjectId
+import bson
 from gridfs import GridFS
 import datetime
 
@@ -47,7 +47,10 @@ class DBController():
 
     @staticmethod
     def get_object_id(_id):
-        return ObjectId(_id)
+        try:
+            return bson.objectid.ObjectId(_id)
+        except bson.errors.InvalidId:
+            return None
 
     def put_file(self, contents, filename):
         return self.fs.put(contents, filename=filename)

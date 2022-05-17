@@ -39,6 +39,9 @@ async def post_club_info(club: Club):
 async def post_club_thumbnail(club_id: str, thumbnail: UploadFile):
     content = await thumbnail.read()
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
+
     if db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         thumbnail_id = db_controller.put_file(content, thumbnail.filename)
         update_thumbnail_result = db_controller.update_document(collection_name, {"_id": club_object_id},
@@ -50,6 +53,8 @@ async def post_club_thumbnail(club_id: str, thumbnail: UploadFile):
 @app.post("/clubs/{club_id}/upload_photos")
 async def post_club_photo(club_id: str, photos: List[UploadFile]):
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         photo_id_list = found_club["photo_id_list"]
         for photo in photos:
@@ -76,6 +81,8 @@ async def get_club_id_list():
 async def get_club_concise_info(club_id: str):
     include_keys = ["name", "current_number_of_people", "maximum_number_of_people"]
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         return_value = {include_key: found_club[include_key] for include_key in include_keys}
         return return_value
@@ -86,6 +93,8 @@ async def get_club_concise_info(club_id: str):
 async def get_club_detail_info(club_id: str):
     include_keys = ["name", "hashtag", "current_number_of_people", "maximum_number_of_people", "deadline", "dues"]
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         return_value = {include_key: found_club[include_key] for include_key in include_keys}
         return return_value
@@ -95,6 +104,8 @@ async def get_club_detail_info(club_id: str):
 @app.get("/clubs/{club_id}/thumbnail")
 async def get_club_thumbnail(club_id: str):
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         thumbnail_id = found_club["thumbnail_id"]
         thumbnail_object_id = db_controller.get_object_id(thumbnail_id)
@@ -107,6 +118,8 @@ async def get_club_thumbnail(club_id: str):
 async def get_photo_id_list(club_id: str):
     photo_id_list = list()
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         for photo_id in found_club["photo_id_list"]:
             photo_id_list.append(str(photo_id))
@@ -117,7 +130,11 @@ async def get_photo_id_list(club_id: str):
 @app.get("/clubs/{club_id}/photos/{photo_id}")
 async def get_club_photo(club_id: str, photo_id: str):
     club_object_id = db_controller.get_object_id(club_id)
+    if not club_object_id:
+        return {"result": "Invalid club id."}
     photo_object_id = db_controller.get_object_id(photo_id)
+    if not photo_object_id:
+        return {"result": "Invalid photo id."}
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
         photo_id_list = found_club["photo_id_list"]
         if photo_object_id in photo_id_list:
