@@ -1,5 +1,5 @@
 ### 동아리 정보 업로드 테스트
-POST http://127.0.0.1:8000/circles
+POST http://127.0.0.1:8000/clubs
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### 동아리 썸네일 업로드 테스트
-POST http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/upload_thumbnail
+POST http://127.0.0.1:8000/clubs/62811c93d07f0853b3c3423d/upload_thumbnail
 Content-Type: multipart/form-data; boundary=thumbnail
 
 --thumbnail
@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="thumbnail"; filename="google_logo.png"
 < ./resource/logos/google_logo.png
 
 ### 동아리 활동사진 업로드 테스트
-POST http://127.0.0.1:8000/circles/62811c93d07f0853b3c3423d/upload_photos
+POST http://127.0.0.1:8000/clubs/62811c93d07f0853b3c3423d/upload_photos
 Content-Type: multipart/form-data; boundary=photo
 
 --photo
