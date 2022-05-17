@@ -70,27 +70,21 @@ async def get_club_id_list():
 
 @app.get("/clubs/{club_id}/concise_info")
 async def get_club_concise_info(club_id: str):
-    removed_keys = ["_id", "hashtag", "deadline", "dues", "thumbnail_id", "photo_id_list"]
+    include_keys = ["name", "current_number_of_people", "maximum_number_of_people"]
     club_object_id = db_controller.get_object_id(club_id)
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
-        found_club["_id"] = str(found_club["_id"])
-        for removed_key in removed_keys:
-            if removed_key in found_club:
-                found_club.pop(removed_key)
-        return found_club
+        return_value = {include_key: found_club[include_key] for include_key in include_keys}
+        return return_value
     return {}
 
 
 @app.get("/clubs/{club_id}/detail_info")
 async def get_club_detail_info(club_id: str):
-    removed_keys = ["_id", "thumbnail_id", "photo_id_list"]
+    include_keys = ["name", "hashtag", "current_number_of_people", "maximum_number_of_people", "deadline", "dues"]
     club_object_id = db_controller.get_object_id(club_id)
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
-        found_club["_id"] = str(found_club["_id"])
-        for removed_key in removed_keys:
-            if removed_key in found_club:
-                found_club.pop(removed_key)
-        return found_club
+        return_value = {include_key: found_club[include_key] for include_key in include_keys}
+        return return_value
     return {}
 
 
