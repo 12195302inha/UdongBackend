@@ -39,23 +39,27 @@ async def post_club_info(club: Club):
 async def post_club_thumbnail(club_id: str, thumbnail: UploadFile):
     content = await thumbnail.read()
     club_object_id = db_controller.get_object_id(club_id)
-    thumbnail_id = db_controller.put_file(content, thumbnail.filename)
-    update_thumbnail_result = db_controller.update_document(collection_name, {"_id": club_object_id},
-                                                            {"thumbnail_id": thumbnail_id})
-    return {"result": update_thumbnail_result}
+    if db_controller.find_one_document(collection_name, {"_id": club_object_id}):
+        thumbnail_id = db_controller.put_file(content, thumbnail.filename)
+        update_thumbnail_result = db_controller.update_document(collection_name, {"_id": club_object_id},
+                                                                {"thumbnail_id": thumbnail_id})
+        return {"result": update_thumbnail_result}
+    return {}
 
 
 @app.post("/clubs/{club_id}/upload_photos")
 async def post_club_photo(club_id: str, photos: List[UploadFile]):
-    photo_id_list = list()
     club_object_id = db_controller.get_object_id(club_id)
-    for photo in photos:
-        content = await photo.read()
-        photo_id = db_controller.put_file(content, photo.filename)
-        photo_id_list.append(photo_id)
-    update_photos_result = db_controller.update_document(collection_name, {"_id": club_object_id},
-                                                         {"photo_id_list": photo_id_list})
-    return {"result": update_photos_result}
+    if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
+        photo_id_list = found_club["photo_id_list"]
+        for photo in photos:
+            content = await photo.read()
+            photo_id = db_controller.put_file(content, photo.filename)
+            photo_id_list.append(photo_id)
+        update_photos_result = db_controller.update_document(collection_name, {"_id": club_object_id},
+                                                             {"photo_id_list": photo_id_list})
+        return {"result": update_photos_result}
+    return {}
 
 
 @app.get("/clubs")
