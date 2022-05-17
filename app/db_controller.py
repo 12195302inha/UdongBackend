@@ -52,8 +52,8 @@ class DBController():
     def put_file(self, contents, filename):
         return self.fs.put(contents, filename=filename)
 
-    def get_file(self, thumbnail_id):
-        return self.fs.get(thumbnail_id).read()
+    def get_file(self, file_id):
+        return self.fs.get(file_id).read()
 
     def delete_file(self, file_id):
         return self.fs.delete(file_id)
