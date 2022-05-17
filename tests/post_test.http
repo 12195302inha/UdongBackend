@@ -12,27 +12,29 @@ Content-Type: application/json
 }
 
 ### 동아리 썸네일 업로드 테스트
-POST http://127.0.0.1:8000/clubs/62811c93d07f0853b3c3423d/upload_thumbnail
+POST http://127.0.0.1:8000/clubs/{{club_id}}/upload_thumbnail
 Content-Type: multipart/form-data; boundary=thumbnail
 
 --thumbnail
 Content-Disposition: form-data; name="thumbnail"; filename="google_logo.png"
 
-// The 'input.txt' file will be uploaded
-< ./resource/logos/google_logo.png
+< ../resource/logos/google_logo.png
 
 ### 동아리 활동사진 업로드 테스트
-POST http://127.0.0.1:8000/clubs/62811c93d07f0853b3c3423d/upload_photos
-Content-Type: multipart/form-data; boundary=photo
+POST http://127.0.0.1:8000/clubs/{{club_id}}/upload_photos
+Content-Type: multipart/form-data; boundary=photos
 
---photo
-Content-Disposition: form-data; name="photos[]"; filename="act1.jpg"
+--photos
+Content-Disposition: form-data; name="photos"; filename="act1.jpg"
 
-// The 'input.txt' file will be uploaded
-< ./resource/pictures/act1.jpg
+< ../resource/pictures/act1.jpg
 
---photo
-Content-Disposition: form-data; name="photos[]"; filename="act2.jpg"
+--photos
+Content-Disposition: form-data; name="photos"; filename="act2.jpg"
 
-// The 'input.txt' file will be uploaded
-< ./resource/pictures/act2.jpg
+< ../resource/pictures/act2.jpg
+
+--photos
+Content-Disposition: form-data; name="photos"; filename="act3.jpg"
+
+< ../resource/pictures/act3.jpg

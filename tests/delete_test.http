@@ -1,0 +1,11 @@
+### 동아리 삭제 테스트
+DELETE http://127.0.0.1:8000/clubs/{{club_id}}
+Accept: application/json
+
+### 썸네일 삭제 테스트
+DELETE http://127.0.0.1:8000/club/{{club_id}}/thumbnail
+Accept: application/json
+
+### 활동 사진 삭제 테스트
+DELETE http://127.0.0.1:8000/club/{{club_id}}/photos/{{photo_id}}
+Accept: application/json
