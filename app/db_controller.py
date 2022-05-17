@@ -13,7 +13,7 @@ class DBController():
     def insert_document(self, collection, document):
         collection = self.db[collection]
         if insert_result := collection.insert_one(document):
-            return insert_result.acknowledged
+            return insert_result.acknowledged, insert_result.inserted_id
         else:
             return False
 

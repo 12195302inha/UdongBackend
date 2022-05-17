@@ -29,8 +29,9 @@ async def post_club_info(club: Club):
     dict_club = dict(club)
     dict_club.update({"thumbnail_id": str()})
     dict_club.update({"photo_id_list": list()})
-    if insert_result := db_controller.insert_document(collection_name, dict_club):
-        return {"result": insert_result}
+    insert_result, inserted_id = db_controller.insert_document(collection_name, dict_club)
+    if insert_result:
+        return {"result": insert_result, "inserted_id": str(inserted_id)}
     return {}
 
 
