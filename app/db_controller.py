@@ -2,11 +2,14 @@ from pymongo import MongoClient
 import bson
 from gridfs import GridFS
 import datetime
+import yaml
 
 
 class DBController():
     def __init__(self, database):
-        client = MongoClient(host='localhost', port=27017)
+        with open("resource/database/database_credential.yaml") as f:
+            database_credential = yaml.load(f, Loader=yaml.FullLoader)
+        client = MongoClient(database_credential["db_server_address"])
         self.db = client[database]
         self.fs = GridFS(self.db)
 
@@ -75,5 +78,3 @@ if __name__ == '__main__':
     print(db_controller.update_document("club", {"name": "심준열"}, {"dues": 12000}))
     print(db_controller.delete_document("club", {"name": "심준열"}))
     print(db_controller.find_documents("club", {}))
-
-
