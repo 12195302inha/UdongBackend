@@ -1,28 +1,28 @@
 ### 동아리 전체 ID 테스트
-GET http://127.0.0.1:8000/clubs
+GET http://{{url}}:{{port}}/clubs
 Accept: application/json
 
 ### 간결한 정보 테스트
 
-GET http://127.0.0.1:8000/clubs/{{club_id}}/concise_info
+GET http://{{url}}:{{port}}/clubs/{{club_id}}/concise_info
 Accept: application/json
 
 ### 복잡한 정보 테스트
 
-GET http://127.0.0.1:8000/clubs/{{club_id}}/detail_info
+GET http://{{url}}:{{port}}/clubs/{{club_id}}/detail_info
 Accept: application/json
 
 ### 썸네일 사진 테스트
 
-GET http://127.0.0.1:8000/clubs/{{club_id}}/thumbnail
+GET http://{{url}}:{{port}}/clubs/{{club_id}}/thumbnail
 Accept: image/png
 
 ### 활동 사진 전체 ID 테스트
 
-GET http://127.0.0.1:8000/clubs/{{club_id}}/photos
+GET http://{{url}}:{{port}}/clubs/{{club_id}}/photos
 Accept: application/json
 
 ### 활동 사진 테스트
 
-GET http://127.0.0.1:8000/clubs/{{club_id}}/photos/{{photo_id}}
+GET http://{{url}}:{{port}}/clubs/{{club_id}}/photos/{{photo_id}}
 Accept: image/png
