@@ -138,10 +138,11 @@ async def get_club_thumbnail(club_id: str):
         raise HTTPException(status_code=400, detail=Description.INVALID_CLUB_ID)
 
     if found_club := db_controller.find_one_document(collection_name, {"_id": club_object_id}):
-        thumbnail_id = found_club["thumbnail_id"]
-        thumbnail_object_id = db_controller.get_object_id(thumbnail_id)
-        output_data = db_controller.get_file(thumbnail_object_id)
-        return StreamingResponse(BytesIO(output_data), media_type="image/png")
+        if thumbnail_id := found_club["thumbnail_id"]:
+            thumbnail_object_id = db_controller.get_object_id(thumbnail_id)
+            output_data = db_controller.get_file(thumbnail_object_id)
+            return StreamingResponse(BytesIO(output_data), media_type="image/png")
+        raise HTTPException(status_code=404, detail=Description.DB_FIND_FAIL)
     raise HTTPException(status_code=404, detail=Description.DB_FIND_FAIL)
 
 
