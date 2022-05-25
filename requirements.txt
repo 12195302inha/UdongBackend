@@ -1,6 +1,6 @@
 python-multipart
-pymongo~=4.1.1
-fastapi~=0.75.2
-pydantic~=1.9.0
-
-PyYAML~=6.0
+pymongo
+fastapi
+pydantic
+uvicorn
+PyYAML
