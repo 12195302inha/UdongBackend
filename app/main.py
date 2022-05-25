@@ -22,6 +22,10 @@ class Club(BaseModel):
     maximum_number_of_people: int
     deadline: datetime.datetime
     dues: int
+    if_interview: bool
+    gender_ratio: str
+    main_activities: list
+    qualification: Union[str, None] = None
 
 
 class DefaultJsonResponse(BaseModel):
@@ -109,7 +113,7 @@ async def get_club_id_list():
 
 @app.get("/clubs/{club_id}/concise_info", response_model=DefaultJsonResponse)
 async def get_club_concise_info(club_id: str):
-    include_keys = ["name", "current_number_of_people", "maximum_number_of_people"]
+    include_keys = ["name", "current_number_of_people", "maximum_number_of_people", "hashtag"]
     club_object_id = db_controller.get_object_id(club_id)
     if not club_object_id:
         raise HTTPException(status_code=400, detail=Description.INVALID_CLUB_ID)
@@ -121,7 +125,8 @@ async def get_club_concise_info(club_id: str):
 
 @app.get("/clubs/{club_id}/detail_info", response_model=DefaultJsonResponse)
 async def get_club_detail_info(club_id: str):
-    include_keys = ["name", "hashtag", "current_number_of_people", "maximum_number_of_people", "deadline", "dues"]
+    include_keys = ["name", "hashtag", "current_number_of_people", "maximum_number_of_people", "deadline", "dues",
+                    "if_interview", "gender_ratio", "main_activities", "qualification"]
     club_object_id = db_controller.get_object_id(club_id)
     if not club_object_id:
         raise HTTPException(status_code=400, detail=Description.INVALID_CLUB_ID)

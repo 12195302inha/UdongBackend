@@ -3,12 +3,16 @@ POST http://{{url}}:{{port}}/clubs
 Content-Type: application/json
 
 {
-  "name": "네터스",
-  "hashtag": ["즐거운", "활기찬"],
-  "current_number_of_people": 0,
-  "maximum_number_of_people": 100,
-  "deadline": "2022-02-02 00:00:00",
-  "dues": 20000
+  "name": "Neters",
+  "hashtag": ["코딩", "친목", "학술동아리"],
+  "current_number_of_people": 14,
+  "maximum_number_of_people": 50,
+  "deadline": "2022-05-21 00:00:00",
+  "dues": 15000,
+  "if_interview": true,
+  "gender_ratio": "6:4",
+  "main_activities": ["객체지향프로그래밍 교육", "백준 스터디 운영", "NPC개최", "친목활동", "게임대회"],
+  "qualification": null
 }
 
 ### 동아리 썸네일 업로드 테스트
